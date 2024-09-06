@@ -1,4 +1,163 @@
-#content {
+:root {
+  --theme-blue: rgb(63, 63, 181);
+  --theme-dark-blue: rgb(39, 34, 103);
+  --theme-orange: rgb(146, 90, 0);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  min-height: 100vh;
   color: white;
+  background-color: var(--theme-blue);
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+button:hover,
+input[type="color"]:hover {
+  cursor: pointer;
+}
+
+#sidebar {
+  background-color: var(--theme-dark-blue);
+  border-right: 1px solid black;
+  box-shadow: 0px 10px 10px black;
+}
+
+.sidebar-text {
+  font-size: 2rem;
+  display: flex;
+  align-items: start;
+  justify-content: space-evenly;
+  gap: 10px;
+}
+
+.nav-item {
+  width: 100%;
+  cursor: pointer;
+  background-color: var(--theme-blue);
+  color: white;
+  border: none;
+}
+
+.nav-item:hover {
+  background-color: var(--theme-orange);
+}
+
+.current-nav {
+  background-color: rgb(131, 133, 66);
+}
+
+#home-button svg {
+  color: rgb(255, 247, 0);
+}
+
+#my-projects > .title {
+  border-bottom: 2px solid white;
+}
+
+#first-hashtag {
+  color: rgb(0, 255, 98);
+}
+
+#content {
+  margin: 25px;
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+}
+
+.content-title {
+  text-align: center;
+  border-bottom: 2px solid black;
+  padding-top: 10px;
+  margin-top: 0;
+  border-radius: 10px 10px 0 0;
+}
+
+.home-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.home-project {
+  margin: 25px;
+  padding: 10px;
+}
+
+.home-todo-list {
+  background-color: rgba(255, 255, 255, 0.5);
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.home-todo-list > li {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.name-button {
+  width: 95%;
+  text-align: left;
+  font-size: 2rem;
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
+  border-radius: 5px;
+}
+
+.name-button:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.display-none {
+  display: none;
+}
+
+.blue-button {
+  color: white;
+  background-color: var(--theme-blue);
+}
+
+.blue-button:hover {
+  background-color: var(--theme-orange);
+}
+
+.white-button,
+.blue-button {
+  margin-left: 25px;
+  height: 40px;
+  min-width: max-content;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 2px solid black;
+}
+
+.white-button:hover {
   background-color: black;
+  color: white;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 40px;
+  padding-top: 15px;
+  font-size: 1rem;
+}
+
+input[type="color"] {
+  width: 100%;
+  height: 100%;
+}
+
+input[type="text"] {
+  font-size: 1.5rem;
+}
+
+label {
+  margin-left: 25px;
+  font-size: 1.5rem;
 }

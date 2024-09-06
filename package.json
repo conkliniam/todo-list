@@ -1,7 +1,7 @@
 {
-  "name": "webpack-template",
+  "name": "todo-list",
   "version": "1.0.0",
-  "description": "This repository is a template for front-end projects using webpack.",
+  "description": "This is a to do list project based on the odin project instructions.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -21,5 +21,8 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4",
     "webpack-merge": "^6.0.1"
+  },
+  "dependencies": {
+    "date-fns": "^3.6.0"
   }
 }
