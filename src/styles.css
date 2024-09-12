@@ -2,6 +2,12 @@
   --theme-blue: rgb(63, 63, 181);
   --theme-dark-blue: rgb(39, 34, 103);
   --theme-orange: rgb(146, 90, 0);
+  --theme-light-red: rgb(239, 164, 157);
+  --theme-dark-red: rgb(88, 4, 1);
+  --theme-light-yellow: rgb(240, 240, 179);
+  --theme-dark-yellow: rgb(106, 106, 0);
+  --theme-light-orange: rgb(245, 166, 63);
+  --theme-dark-orange: rgb(173, 95, 0);
 }
 
 body {
@@ -28,10 +34,9 @@ input[type="color"]:hover {
 
 .sidebar-text {
   font-size: 2rem;
-  display: flex;
-  align-items: start;
-  justify-content: space-evenly;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  text-align: left;
 }
 
 .nav-item {
@@ -86,6 +91,9 @@ input[type="color"]:hover {
 .home-project {
   margin: 25px;
   padding: 10px;
+  border: 2px solid black;
+  border-radius: 10px;
+  box-shadow: 5px 5px 0 black;
 }
 
 .home-todo-list {
@@ -112,10 +120,6 @@ input[type="color"]:hover {
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-.display-none {
-  display: none;
-}
-
 .blue-button {
   color: white;
   background-color: var(--theme-blue);
@@ -125,9 +129,18 @@ input[type="color"]:hover {
   background-color: var(--theme-orange);
 }
 
+.red-button {
+  color: white;
+  background-color: rgb(209, 19, 19);
+}
+
+.red-button:hover {
+  background-color: red;
+}
+
 .white-button,
-.blue-button {
-  margin-left: 25px;
+.blue-button,
+.red-button {
   height: 40px;
   min-width: max-content;
   font-size: 1rem;
@@ -143,9 +156,14 @@ input[type="color"]:hover {
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 40px;
+  grid-auto-rows: 40px;
+  gap: 10px;
   padding-top: 15px;
   font-size: 1rem;
+}
+
+.form-text-row {
+  padding-top: 15px;
 }
 
 input[type="color"] {
@@ -153,11 +171,125 @@ input[type="color"] {
   height: 100%;
 }
 
-input[type="text"] {
-  font-size: 1.5rem;
+input[type="text"],
+input[type="datetime-local"],
+select {
+  font-size: 1.25rem;
 }
 
 label {
   margin-left: 25px;
   font-size: 1.5rem;
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  height: 120px;
+  font-size: 1rem;
+}
+
+.form-description {
+  height: 60px;
+}
+
+.todo-container {
+  border: 1px solid black;
+  border-radius: 10px;
+  margin: 25px;
+  padding: 0 10px;
+  box-shadow: 5px 5px 0 black;
+}
+
+.todo-header > h2 {
+  font-size: 1.25rem;
+}
+
+.todo-header {
+  display: grid;
+  grid-template-columns: 50px 50px 50px 50px 1fr 1fr 1fr;
+  gap: 20px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.todo-body {
+  border-top: 2px solid black;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: baseline;
+}
+
+.in-progress .due-soon {
+  background-color: var(--theme-light-yellow);
+  color: var(--theme-dark-yellow);
+  border: 2px solid var(--theme-dark-yellow);
+}
+
+.in-progress .past-due {
+  background-color: var(--theme-light-red);
+  color: var(--theme-dark-red);
+  border: 2px solid var(--theme-dark-red);
+}
+
+.high-priority {
+  background-color: var(--theme-light-red);
+  border: 2px solid var(--theme-dark-red);
+}
+
+.medium-priority {
+  background-color: var(--theme-light-orange);
+  border: 2px solid var(--theme-dark-orange);
+}
+
+.low-priority {
+  background-color: var(--theme-light-yellow);
+  border: 2px solid var(--theme-dark-yellow);
+}
+
+.todo-body-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.completed {
+  background-color: lightgray;
+  border: 2px solid black;
+}
+
+.two-columns {
+  grid-column: 1 / 3;
+}
+
+.home-todo-list {
+  list-style: none;
+  padding: 0;
+}
+
+.home-todo-item {
+  font-size: 1.5rem;
+  padding: 10px;
+}
+
+.ml-25 {
+  margin-left: 25px;
+}
+
+.todo-complete {
+  height: 30px;
+}
+
+.todo-complete:hover {
+  cursor: pointer;
+}
+
+.display-none {
+  display: none;
+}
+
+.display-inline {
+  display: inline;
 }

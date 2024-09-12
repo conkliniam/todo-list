@@ -3,15 +3,33 @@ import Project from "../models/project";
 const projects = [];
 
 function getSavedProjects() {
-  const defaultProject = new Project("Default", 0, "#ef9b9b");
-  projects.push(defaultProject);
+  if (projects.length === 0) {
+    const defaultProject = new Project("Default", 0, "#ef9b9b");
+    projects.push(defaultProject);
+  }
+
   return projects;
 }
 
+function getProjectById(projectId) {
+  const project = projects.find((project) => project.id === projectId);
+
+  return project;
+}
+
 function addProject(name, color) {
-  const newProject = new Project(name, projects.length, color);
+  const nextId = getNextId();
+  const newProject = new Project(name, nextId, color);
   projects.push(newProject);
   return newProject;
 }
 
-export { getSavedProjects, addProject };
+function getNextId() {
+  if (projects.length > 0) {
+    return projects[projects.length - 1].id + 1;
+  }
+
+  return 0;
+}
+
+export { getSavedProjects, addProject, getProjectById };

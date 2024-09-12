@@ -1,4 +1,8 @@
-import { clearContent, clearCurrentNav } from "./viewHelper";
+import {
+  clearContent,
+  clearCurrentNav,
+  replaceOrAppendChild,
+} from "./viewHelper";
 import { getTodoItemList } from "./todoListView";
 import { loadProjectPage } from "./projectView";
 import { getProjectDialog } from "./newProjectView";
@@ -12,7 +16,11 @@ function loadHomePage(projects) {
   clearCurrentNav();
   const homeButton = document.querySelector("#home-button");
   const content = document.querySelector("#content");
-  const [dialog, nameInput, colorInput, submitButton] = getProjectDialog();
+  const oldDialog = document.querySelector(".project-dialog");
+  const [dialog, form] = getProjectDialog();
+
+  replaceOrAppendChild(document.body, oldDialog, dialog);
+
   homeButton.classList.toggle("current-nav");
 
   const title = document.createElement("h1");
@@ -20,7 +28,8 @@ function loadHomePage(projects) {
 
   title.className = "content-title";
   title.textContent = "To Do List Projects";
-  addButton.className = "blue-button";
+  addButton.classList.add("blue-button");
+  addButton.classList.add("ml-25");
   addButton.textContent = "New Project";
 
   content.appendChild(title);
@@ -33,12 +42,15 @@ function loadHomePage(projects) {
   addButton.addEventListener("click", () => {
     dialog.open = true;
   });
-  submitButton.addEventListener("click", () => {
-    const newProject = addProject(nameInput.value, colorInput.value);
+  form.addEventListener("submit", () => {
+    const name = form.querySelector("#project-name");
+    const color = form.querySelector("#project-color");
+    const newProject = addProject(name.value, color.value);
+    name.value = "";
+    color.value = "#000000";
     addProjectToSidebar(newProject);
     addProjectToHomePage(newProject, content);
   });
-  content.appendChild(dialog);
 }
 
 function addProjectToHomePage(project, content) {
@@ -47,15 +59,15 @@ function addProjectToHomePage(project, content) {
   const nameButton = document.createElement("button");
   const expand = document.createElement("img");
   const collapse = document.createElement("img");
-  const todoItemContainer = getTodoItemList(project.getTodoItems());
+  const todoItemContainer = getTodoItemList(project);
   const expandButton = document.createElement("button");
 
   container.className = "home-project";
   container.style.backgroundColor = project.color;
   header.className = "home-header";
   nameButton.className = "name-button";
-  expandButton.className = "blue-button";
   nameButton.textContent = project.name;
+  expandButton.className = "blue-button";
   expand.src = chevronDown;
   collapse.src = chevronUp;
   collapse.classList.toggle("display-none");
@@ -72,8 +84,8 @@ function addProjectToHomePage(project, content) {
 
   nameButton.addEventListener("click", () => loadProjectPage(project));
 
-  header.appendChild(nameButton);
   header.appendChild(expandButton);
+  header.appendChild(nameButton);
   container.appendChild(header);
   container.appendChild(todoItemContainer);
   content.appendChild(container);

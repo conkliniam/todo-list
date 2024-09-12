@@ -12,6 +12,7 @@ function getProjectDialog(project = undefined) {
   const submitButton = document.createElement("button");
   const buttonDiv = document.createElement("div");
 
+  dialog.classList.add("project-dialog");
   form.method = "dialog";
 
   formTitle.textContent = "New Project";
@@ -19,6 +20,8 @@ function getProjectDialog(project = undefined) {
   nameInput.id = "project-name";
   nameInput.name = "project-name";
   nameInput.type = "text";
+  nameInput.required = true;
+  nameInput.maxLength = 30;
 
   colorInput.id = "project-color";
   colorInput.name = "project-color";
@@ -31,6 +34,7 @@ function getProjectDialog(project = undefined) {
   colorLabel.textContent = "Project Color:";
 
   cancelButton.className = "white-button";
+  cancelButton.type = "button";
   cancelButton.textContent = "Cancel";
 
   submitButton.className = "blue-button";
@@ -57,7 +61,7 @@ function getProjectDialog(project = undefined) {
   });
 
   dialog.appendChild(form);
-  return [dialog, nameInput, colorInput, submitButton];
+  return [dialog, form];
 }
 
 export { getProjectDialog };
