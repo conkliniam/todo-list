@@ -206,12 +206,11 @@ textarea {
 }
 
 .todo-header {
-  display: grid;
-  grid-template-columns: 50px 50px 50px 50px 1fr 1fr 1fr;
-  gap: 20px;
+  display: flex;
   flex-direction: row;
+  gap: 30px;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
 }
 
 .todo-body {
@@ -219,8 +218,17 @@ textarea {
   padding: 10px;
   display: flex;
   flex-direction: row;
-  gap: 20px;
+  gap: 30px;
   align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.todo-body-container {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  max-width: 500px;
+  gap: 15px;
 }
 
 .in-progress .due-soon {
@@ -278,8 +286,42 @@ textarea {
   margin-left: 25px;
 }
 
+.checkbox-container {
+  border: 2px solid black;
+  height: 35px;
+  border-radius: 5px;
+}
+
 .todo-complete {
-  height: 30px;
+  height: 35px;
+  width: 35px;
+  margin: 0;
+}
+
+p {
+  font-size: 1.25rem;
+}
+
+.todo-checklist {
+  list-style: decimal;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  flex-wrap: wrap;
+  column-gap: 30px;
+}
+
+.checklist-item {
+  font-size: 1.25rem;
+}
+
+.checklist-checkbox {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.checklist-checkbox:hover {
+  cursor: pointer;
 }
 
 .todo-complete:hover {

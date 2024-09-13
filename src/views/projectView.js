@@ -145,7 +145,8 @@ function handleAddTodoItem(form, project, todoContainer) {
   if (todoId.value) {
     const [updatedProject, editedTodoItem] = editTodoItemInProject(
       todoValues,
-      parentProject.value
+      parentProject.value,
+      project.id
     );
 
     if (project.id !== parentProject.value) {

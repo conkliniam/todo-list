@@ -17,24 +17,29 @@ function displayTodoItem(container, project, todoItem) {
   const editButton = document.createElement("button");
   const trashIcon = document.createElement("img");
   const deleteButton = document.createElement("button");
+  const checkboxDiv = document.createElement("div");
   const completeCheckbox = document.createElement("input");
   const todoTitle = document.createElement("h2");
   const dueDate = document.createElement("h2");
   const completionDate = document.createElement("h2");
   const body = document.createElement("div");
+  const todoDescriptionDiv = document.createElement("div");
   const todoDescriptionTitle = document.createElement("h3");
-  const todoDescriptionContent = document.createElement("pre");
+  const todoDescriptionContent = document.createElement("p");
+  const todoPriorityDiv = document.createElement("div");
   const todoPriorityTitle = document.createElement("h3");
   const todoPriorityContent = document.createElement("h3");
+  const todoNotesDiv = document.createElement("div");
   const todoNotesTitle = document.createElement("h3");
-  const todoNotesContent = document.createElement("pre");
+  const todoNotesContent = document.createElement("p");
+  const todoChecklistDiv = document.createElement("div");
   const checklistTitle = document.createElement("h3");
   const checklistContainer = document.createElement("ul");
   const dialog = document.querySelector("#completion-date-dialog");
 
   todoContainer.id = `todo-container-${todoItem.id}`;
-  todoContainer.classList.add(`${todoItem.priority}-priority`);
   todoContainer.classList.add("todo-container");
+  todoContainer.classList.add(`${todoItem.priority}-priority`);
   completeCheckbox.classList.add("todo-complete");
   completionDate.classList.add("todo-complete-date");
 
@@ -54,11 +59,11 @@ function displayTodoItem(container, project, todoItem) {
   displayDueDate(todoItem.dueDate, dueDate);
 
   todoDescriptionTitle.textContent = "Description: ";
-  todoDescriptionContent.textContent = todoItem.description;
+  todoDescriptionContent.textContent = getText(todoItem.description);
   todoPriorityTitle.textContent = "Priority: ";
   todoPriorityContent.textContent = capitalize(todoItem.priority);
   todoNotesTitle.textContent = "Notes: ";
-  todoNotesContent.textContent = todoItem.notes;
+  todoNotesContent.textContent = getText(todoItem.notes);
   checklistTitle.textContent = "Checklist:";
 
   todoDescriptionContent.classList.add("todo-description-content");
@@ -66,7 +71,6 @@ function displayTodoItem(container, project, todoItem) {
   todoNotesContent.classList.add("todo-notes-content");
 
   header.classList.add("todo-header");
-  todoContainer.classList.add("todo-container");
   checklistContainer.classList.add("todo-checklist");
   body.classList.add("todo-body");
 
@@ -93,21 +97,32 @@ function displayTodoItem(container, project, todoItem) {
 
   displayChecklist(todoItem.checklist, checklistContainer);
 
+  todoDescriptionDiv.classList.add("todo-body-container");
+  todoPriorityDiv.classList.add("todo-body-container");
+  todoNotesDiv.classList.add("todo-body-container");
+  todoChecklistDiv.classList.add("todo-body-container");
+  checkboxDiv.classList.add("checkbox-container");
+
+  checkboxDiv.appendChild(completeCheckbox);
   header.appendChild(expandButton);
-  header.appendChild(completeCheckbox);
+  header.appendChild(checkboxDiv);
   header.appendChild(editButton);
   header.appendChild(deleteButton);
   header.appendChild(todoTitle);
   header.appendChild(dueDate);
   header.appendChild(completionDate);
-  body.appendChild(todoDescriptionTitle);
-  body.appendChild(todoDescriptionContent);
-  body.appendChild(todoPriorityTitle);
-  body.appendChild(todoPriorityContent);
-  body.appendChild(todoNotesTitle);
-  body.appendChild(todoNotesContent);
-  body.appendChild(checklistTitle);
-  body.appendChild(checklistContainer);
+  todoDescriptionDiv.appendChild(todoDescriptionTitle);
+  todoDescriptionDiv.appendChild(todoDescriptionContent);
+  todoPriorityDiv.appendChild(todoPriorityTitle);
+  todoPriorityDiv.appendChild(todoPriorityContent);
+  todoNotesDiv.appendChild(todoNotesTitle);
+  todoNotesDiv.appendChild(todoNotesContent);
+  todoChecklistDiv.appendChild(checklistTitle);
+  todoChecklistDiv.appendChild(checklistContainer);
+  body.appendChild(todoDescriptionDiv);
+  body.appendChild(todoPriorityDiv);
+  body.appendChild(todoNotesDiv);
+  body.appendChild(todoChecklistDiv);
   todoContainer.appendChild(header);
   todoContainer.appendChild(body);
 
@@ -160,6 +175,14 @@ function displayDueDate(dueDate, displayElement) {
   }
 }
 
+function getText(text) {
+  if (text === "") {
+    return "Empty";
+  } else {
+    return text;
+  }
+}
+
 function updateTodoItem(container, todoItem) {
   const todoContainer = container.querySelector(
     `#todo-container-${todoItem.id}`
@@ -174,12 +197,24 @@ function updateTodoItem(container, todoItem) {
   );
   const todoNotesContent = todoContainer.querySelector(".todo-notes-content");
   const todoChecklist = todoContainer.querySelector(".todo-checklist");
+  const completeCheckbox = todoContainer.querySelector(".todo-complete");
+  const completionDate = todoContainer.querySelector(".todo-complete-date");
 
+  todoContainer.className = "todo-container";
+
+  todoContainer.classList.add(`${todoItem.priority}-priority`);
+  updateCompletionDisplay(
+    todoItem,
+    todoContainer,
+    completeCheckbox,
+    completionDate
+  );
   todoTitle.textContent = todoItem.title;
+  todoDueDate.className = "todo-due-date";
   displayDueDate(todoItem.dueDate, todoDueDate);
-  todoDescriptionContent.textContent = todoItem.description;
+  todoDescriptionContent.textContent = getText(todoItem.description);
   todoPriorityContent.textContent = capitalize(todoItem.priority);
-  todoNotesContent.textContent = todoItem.notes;
+  todoNotesContent.textContent = getText(todoItem.notes);
 
   todoChecklist.innerHTML = "";
   displayChecklist(todoItem.checklist, todoChecklist);

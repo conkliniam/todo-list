@@ -22,13 +22,22 @@ function addTodoItemToProject(todoFields, projectId) {
   return [project, todoItem];
 }
 
-function editTodoItemInProject(todoFields, projectId) {
+function editTodoItemInProject(todoFields, newProjectId, oldProjectId) {
   const { id, title, description, dueDate, priority, notes, checklist } =
     todoFields;
-  const project = getProjectById(projectId);
+  const project = getProjectById(oldProjectId);
 
   const todoItem = project.getTodoItemById(id);
   todoItem.update(title, description, dueDate, priority, notes, checklist);
+
+  if (newProjectId !== oldProjectId) {
+    const newProject = getProjectById(newProjectId);
+    project.removeTodoItem(todoItem);
+    todoItem.id = newProject.nextId();
+    newProject.addTodoItem(todoItem);
+
+    return [newProject, todoItem];
+  }
 
   return [project, todoItem];
 }

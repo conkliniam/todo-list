@@ -118,6 +118,7 @@ function getTodoDialog(parentProject) {
   checklistInput.id = "to-do-checklist";
   checklistInput.name = "to-do-checklist";
   checklistInput.type = "text";
+  checklistInput.maxLength = 30;
 
   checklistLabel.for = "to-do-checklist";
   checklistLabel.textContent = "Checklist:";
