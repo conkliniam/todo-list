@@ -36,7 +36,9 @@ function addProjectToSidebar(project) {
   button.classList.add("nav-item");
   button.classList.add("sidebar-text");
   button.id = `${project.id}-button`;
+  hashSpan.classList.add("hash-span");
   hashSpan.style.color = project.color;
+  span.classList.add("text-span");
   span.textContent = project.name;
 
   hashSpan.appendChild(hashCopy);
@@ -45,6 +47,20 @@ function addProjectToSidebar(project) {
   container.appendChild(button);
 
   button.addEventListener("click", () => loadProjectPage(project));
+}
+
+function editProjectOnSideBar(project) {
+  const button = document.querySelector(`#${project.id}-button`);
+  const hashSpan = button.querySelector(".hash-span");
+  const span = button.querySelector(".text-span");
+
+  hashSpan.style.color = project.color;
+  span.textContent = project.name;
+}
+
+function removeProjectFromSideBar(project) {
+  const button = document.querySelector(`#${project.id}-button`);
+  container.removeChild(button);
 }
 
 function loadProjectPage(project) {
@@ -73,6 +89,7 @@ function loadProjectPage(project) {
 
   title.className = "content-title";
   title.style.backgroundColor = project.color;
+  title.style.color = project.textColor();
   title.textContent = `${project.name}`;
 
   addButton.classList.add("blue-button");
@@ -171,6 +188,8 @@ function handleAddTodoItem(form, project, todoContainer) {
 export {
   updateProjectSidebar,
   addProjectToSidebar,
+  editProjectOnSideBar,
+  removeProjectFromSideBar,
   loadProjectPage,
   loadAndCreateTodo,
 };

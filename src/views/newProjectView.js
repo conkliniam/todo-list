@@ -1,7 +1,8 @@
-function getProjectDialog(project = undefined) {
+function getProjectDialog() {
   const dialog = document.createElement("dialog");
   const form = document.createElement("form");
   const formTitle = document.createElement("h2");
+  const projectId = document.createElement("input");
   const nameLabel = document.createElement("label");
   const nameInput = document.createElement("input");
   const nameDiv = document.createElement("div");
@@ -15,7 +16,12 @@ function getProjectDialog(project = undefined) {
   dialog.classList.add("project-dialog");
   form.method = "dialog";
 
+  formTitle.classList.add("project-form-title");
   formTitle.textContent = "New Project";
+
+  projectId.id = "project-id";
+  projectId.type = "hidden";
+  projectId.value = null;
 
   nameInput.id = "project-name";
   nameInput.name = "project-name";
@@ -52,6 +58,7 @@ function getProjectDialog(project = undefined) {
   buttonDiv.appendChild(cancelButton);
   buttonDiv.appendChild(submitButton);
   form.appendChild(formTitle);
+  form.appendChild(projectId);
   form.appendChild(nameDiv);
   form.appendChild(colorDiv);
   form.appendChild(buttonDiv);
@@ -64,4 +71,29 @@ function getProjectDialog(project = undefined) {
   return [dialog, form];
 }
 
-export { getProjectDialog };
+function openProjectDialog(project = null) {
+  const dialog = document.querySelector(".project-dialog");
+  const formTitle = dialog.querySelector(".project-form-title");
+  const idInput = dialog.querySelector("#project-id");
+  const nameInput = dialog.querySelector("#project-name");
+  const colorInput = dialog.querySelector("#project-color");
+  const submitButton = dialog.querySelector("#submit-project");
+
+  if (project) {
+    formTitle.textContent = "Edit Project";
+    idInput.value = project.id;
+    nameInput.value = project.name;
+    colorInput.value = project.color;
+    submitButton.textContent = "Edit";
+  } else {
+    formTitle.textContent = "New Project";
+    idInput.value = null;
+    nameInput.value = "";
+    colorInput.value = "#000000";
+    submitButton.textContent = "Add";
+  }
+
+  dialog.open = true;
+}
+
+export { getProjectDialog, openProjectDialog };

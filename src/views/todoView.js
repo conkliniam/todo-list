@@ -10,6 +10,8 @@ import { openNewTodoDialog } from "./newTodoView";
 function displayTodoItem(container, project, todoItem) {
   const todoContainer = document.createElement("div");
   const header = document.createElement("div");
+  const headerTop = document.createElement("div");
+  const headerBottom = document.createElement("div");
   const expand = document.createElement("img");
   const collapse = document.createElement("img");
   const expandButton = document.createElement("button");
@@ -71,6 +73,8 @@ function displayTodoItem(container, project, todoItem) {
   todoNotesContent.classList.add("todo-notes-content");
 
   header.classList.add("todo-header");
+  headerTop.classList.add("todo-header-top");
+  headerBottom.classList.add("todo-header-bottom");
   checklistContainer.classList.add("todo-checklist");
   body.classList.add("todo-body");
 
@@ -104,13 +108,15 @@ function displayTodoItem(container, project, todoItem) {
   checkboxDiv.classList.add("checkbox-container");
 
   checkboxDiv.appendChild(completeCheckbox);
-  header.appendChild(expandButton);
-  header.appendChild(checkboxDiv);
-  header.appendChild(editButton);
-  header.appendChild(deleteButton);
-  header.appendChild(todoTitle);
-  header.appendChild(dueDate);
-  header.appendChild(completionDate);
+  headerTop.appendChild(checkboxDiv);
+  headerTop.appendChild(todoTitle);
+  headerTop.appendChild(completionDate);
+  headerBottom.appendChild(dueDate);
+  headerBottom.appendChild(deleteButton);
+  headerBottom.appendChild(editButton);
+  headerBottom.appendChild(expandButton);
+  header.appendChild(headerTop);
+  header.appendChild(headerBottom);
   todoDescriptionDiv.appendChild(todoDescriptionTitle);
   todoDescriptionDiv.appendChild(todoDescriptionContent);
   todoPriorityDiv.appendChild(todoPriorityTitle);
@@ -161,10 +167,7 @@ function displayTodoItem(container, project, todoItem) {
 }
 
 function displayDueDate(dueDate, displayElement) {
-  displayElement.textContent = `Due: ${format(
-    dueDate,
-    "MMM dd, yyyy, h:mm a"
-  )}`;
+  displayElement.textContent = `Due: ${format(dueDate, "M/d/yy, h:mma")}`;
 
   const now = new Date();
 
@@ -231,7 +234,7 @@ function updateCompletionDisplay(
   if (isComplete) {
     completionDate.textContent = `Completed: ${format(
       todoItem.completionDate,
-      "MMM dd, yyyy, h:mm a"
+      "M/d/yy, h:mma"
     )}`;
     todoContainer.classList.add("completed");
     todoContainer.classList.remove("in-progress");

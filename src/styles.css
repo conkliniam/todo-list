@@ -83,17 +83,24 @@ input[type="color"]:hover {
 }
 
 .home-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 50px 1fr 50px 50px;
+  gap: 10px;
+}
+
+.home-project-container {
+  margin: 25px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+  gap: 20px;
 }
 
 .home-project {
-  margin: 25px;
   padding: 10px;
   border: 2px solid black;
   border-radius: 10px;
   box-shadow: 5px 5px 0 black;
+  margin-bottom: auto;
 }
 
 .home-todo-list {
@@ -108,7 +115,6 @@ input[type="color"]:hover {
 }
 
 .name-button {
-  width: 95%;
   text-align: left;
   font-size: 2rem;
   background-color: rgba(255, 255, 255, 0);
@@ -193,23 +199,38 @@ textarea {
   height: 60px;
 }
 
+.to-do-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  margin: 25px;
+  gap: 10px;
+}
+
 .todo-container {
   border: 1px solid black;
   border-radius: 10px;
-  margin: 25px;
   padding: 0 10px;
   box-shadow: 5px 5px 0 black;
+  margin-bottom: auto;
 }
 
-.todo-header > h2 {
+.todo-header h2 {
   font-size: 1.25rem;
 }
 
-.todo-header {
-  display: flex;
-  flex-direction: row;
-  gap: 30px;
-  flex-wrap: wrap;
+.todo-header-top {
+  display: grid;
+  grid-template-columns: 40px 1fr 1fr;
+  grid-template-rows: 50px;
+  gap: 10px;
+  align-items: center;
+}
+
+.todo-header-bottom {
+  display: grid;
+  grid-template-columns: 1fr 50px 50px 50px;
+  grid-template-rows: 50px;
+  gap: 10px;
   align-items: center;
 }
 
@@ -218,7 +239,7 @@ textarea {
   padding: 10px;
   display: flex;
   flex-direction: row;
-  gap: 30px;
+  column-gap: 30px;
   align-items: baseline;
   flex-wrap: wrap;
 }

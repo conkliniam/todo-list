@@ -32,4 +32,24 @@ function getNextId() {
   return 0;
 }
 
-export { getSavedProjects, addProject, getProjectById };
+function removeProject(project) {
+  const index = projects.indexOf(project);
+  if (index > -1) {
+    projects.splice(index, 1);
+  }
+}
+
+function editProject(id, name, color) {
+  const project = getProjectById(id);
+  project.name = name;
+  project.color = color;
+  return project;
+}
+
+export {
+  getSavedProjects,
+  addProject,
+  getProjectById,
+  editProject,
+  removeProject,
+};

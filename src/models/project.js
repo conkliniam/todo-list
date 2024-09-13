@@ -22,6 +22,13 @@ class Project {
     }
   }
 
+  textColor() {
+    const r = parseInt(this.color.slice(1, 3), 16);
+    const g = parseInt(this.color.slice(3, 5), 16);
+    const b = parseInt(this.color.slice(5), 16);
+    return r * 0.299 + g * 0.587 + b * 0.114 > 186 ? "#000000" : "#FFFFFF";
+  }
+
   getTodoItemById(todoId) {
     const todoItem = this.todoItems.find((item) => todoId === item.id);
     return todoItem;

@@ -21,13 +21,10 @@ class TodoItem {
     if (this.completionDate) {
       return `${this.title} -- Due: ${format(
         this.dueDate,
-        "MMM dd, yyyy, h:mm aa"
-      )} -- Completed: ${format(this.completionDate, "MMM dd, yyyy, h:mm aa")}`;
+        "M/d/yy, h:mma"
+      )} -- Completed: ${format(this.completionDate, "M/d/yy, h:mma")}`;
     } else {
-      return `${this.title} -- Due: ${format(
-        this.dueDate,
-        "MMM dd, yyyy, h:mm aa"
-      )}`;
+      return `${this.title} -- Due: ${format(this.dueDate, "M/d/yy, h:mma")}`;
     }
   }
 
