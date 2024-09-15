@@ -6,6 +6,8 @@ import chevronUp from "../images/chevron-up.svg";
 import pencilSquare from "../images/pencil-square.svg";
 import trashFill from "../images/trash-fill.svg";
 import { openNewTodoDialog } from "./newTodoView";
+import { getProjectById } from "../controllers/projectController";
+import { editTodoItemCompletion } from "../controllers/todoItemController";
 
 function displayTodoItem(container, project, todoItem) {
   const todoContainer = document.createElement("div");
@@ -99,7 +101,12 @@ function displayTodoItem(container, project, todoItem) {
     body.classList.toggle("display-none");
   });
 
-  displayChecklist(todoItem.checklist, checklistContainer);
+  displayChecklist(
+    project.id,
+    todoItem.id,
+    todoItem.checklist,
+    checklistContainer
+  );
 
   todoDescriptionDiv.classList.add("todo-body-container");
   todoPriorityDiv.classList.add("todo-body-container");
@@ -136,10 +143,12 @@ function displayTodoItem(container, project, todoItem) {
 
   completeCheckbox.addEventListener("change", (event) => {
     event.preventDefault();
-    const isComplete = !!todoItem.completionDate;
+    const currentProject = getProjectById(project.id);
+    const currentTodo = currentProject.getTodoItemById(todoItem.id);
+    const isComplete = !!currentTodo.completionDate;
 
     if (isComplete) {
-      todoItem.setCompletionDate(null);
+      editTodoItemCompletion(project.id, todoItem.id, null);
     } else {
       const dateInput = dialog.querySelector("#completion-date");
       const todoIdInput = dialog.querySelector("#todo-item-id");
@@ -151,7 +160,7 @@ function displayTodoItem(container, project, todoItem) {
     }
 
     updateCompletionDisplay(
-      todoItem,
+      currentTodo,
       todoContainer,
       completeCheckbox,
       completionDate
@@ -161,7 +170,9 @@ function displayTodoItem(container, project, todoItem) {
   editButton.addEventListener("click", () => openNewTodoDialog(todoItem));
 
   deleteButton.addEventListener("click", () => {
-    project.removeTodoItem(todoItem);
+    const currentProject = getProjectById(project.id);
+    const currentItem = currentProject.getTodoItemById(todoItem.id);
+    currentProject.removeTodoItem(currentItem);
     container.removeChild(todoContainer);
   });
 }
@@ -220,7 +231,7 @@ function updateTodoItem(container, todoItem) {
   todoNotesContent.textContent = getText(todoItem.notes);
 
   todoChecklist.innerHTML = "";
-  displayChecklist(todoItem.checklist, todoChecklist);
+  displayChecklist(project.id, todoItem.id, todoItem.checklist, todoChecklist);
 }
 
 function updateCompletionDisplay(
@@ -250,12 +261,16 @@ function updateCompletionDisplay(
   }
 }
 
-function handleSetCompletionDate(event, todoItem, todoContainer) {
+function handleSetCompletionDate(event, todoItemId, projectId, todoContainer) {
   const form = event.target;
   const dateInput = form.querySelector("#completion-date");
   const completeCheckbox = todoContainer.querySelector(".todo-complete");
   const completionDate = todoContainer.querySelector(".todo-complete-date");
-  todoItem.setCompletionDate(dateInput.value);
+  const todoItem = editTodoItemCompletion(
+    projectId,
+    todoItemId,
+    dateInput.value
+  );
   updateCompletionDisplay(
     todoItem,
     todoContainer,

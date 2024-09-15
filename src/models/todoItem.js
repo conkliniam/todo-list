@@ -2,10 +2,19 @@ import { format } from "date-fns";
 import ChecklistItem from "./checklistItem";
 
 class TodoItem {
-  constructor(title, description, dueDate, priority, notes, checklist, id) {
+  constructor(
+    title,
+    description,
+    dueDate,
+    priority,
+    notes,
+    checklist,
+    id,
+    completionDate = ""
+  ) {
     this.update(title, description, dueDate, priority, notes, checklist);
-    this.completionDate = "";
     this.id = id;
+    this.completionDate = completionDate;
   }
 
   update(title, description, dueDate, priority, notes, checklist) {
@@ -14,7 +23,10 @@ class TodoItem {
     this.dueDate = dueDate;
     this.priority = priority;
     this.notes = notes;
-    this.checklist = checklist.map((text) => new ChecklistItem(text));
+    this.checklist = checklist.map(
+      (checklistItem, index) =>
+        new ChecklistItem(checklistItem.text, checklistItem.checked, index)
+    );
   }
 
   getListText() {
@@ -26,6 +38,12 @@ class TodoItem {
     } else {
       return `${this.title} -- Due: ${format(this.dueDate, "M/d/yy, h:mma")}`;
     }
+  }
+
+  getChecklistItemById(id) {
+    return this.checklist.find(
+      (checklistItem) => checklistItem.id === Number(id)
+    );
   }
 
   setCompletionDate(date) {

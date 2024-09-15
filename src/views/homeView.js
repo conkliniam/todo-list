@@ -66,7 +66,7 @@ function loadHomePage(projects) {
       editProjectOnHomepage(project, projectContainer);
     } else {
       const newProject = addProject(name.value, color.value);
-      addProjectToSidebar(newProject);
+      addProjectToSidebar(newProject.id, newProject.color, newProject.name);
       addProjectToHomePage(newProject, projectContainer);
     }
   });

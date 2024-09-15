@@ -2,17 +2,35 @@ import Project from "../models/project";
 
 const projects = [];
 
+function save() {
+  localStorage.setItem("projects", JSON.stringify(projects));
+}
+
 function getSavedProjects() {
-  if (projects.length === 0) {
+  projects.length = 0;
+
+  if (!localStorage.getItem("projects")) {
     const defaultProject = new Project("Default", 0, "#ef9b9b");
     projects.push(defaultProject);
+  } else {
+    const projectObjects = JSON.parse(localStorage.getItem("projects"));
+
+    for (const projectObject of projectObjects) {
+      const newProject = new Project(
+        projectObject.name,
+        projectObject.id,
+        projectObject.color,
+        projectObject.todoItems
+      );
+      projects.push(newProject);
+    }
   }
 
   return projects;
 }
 
 function getProjectById(projectId) {
-  const project = projects.find((project) => project.id === projectId);
+  const project = projects.find((project) => project.id === Number(projectId));
 
   return project;
 }
@@ -21,6 +39,7 @@ function addProject(name, color) {
   const nextId = getNextId();
   const newProject = new Project(name, nextId, color);
   projects.push(newProject);
+  save();
   return newProject;
 }
 
@@ -37,12 +56,14 @@ function removeProject(project) {
   if (index > -1) {
     projects.splice(index, 1);
   }
+  save();
 }
 
 function editProject(id, name, color) {
   const project = getProjectById(id);
   project.name = name;
   project.color = color;
+  save();
   return project;
 }
 
@@ -52,4 +73,5 @@ export {
   getProjectById,
   editProject,
   removeProject,
+  save,
 };

@@ -14,7 +14,7 @@ import {
   handleSetCompletionDate,
   updateTodoItem,
 } from "./todoView";
-import * as priorityValues from "../models/priority";
+import { getProjectById } from "../controllers/projectController";
 
 const container = document.querySelector("#project-list");
 const hashtag = document.querySelector(".hashtag");
@@ -23,11 +23,11 @@ function updateProjectSidebar(projects) {
   container.innerHTML = "";
 
   for (const project of projects) {
-    addProjectToSidebar(project);
+    addProjectToSidebar(project.id, project.color, project.name);
   }
 }
 
-function addProjectToSidebar(project) {
+function addProjectToSidebar(id, color, name) {
   const button = document.createElement("button");
   const hashCopy = hashtag.cloneNode(true);
   const hashSpan = document.createElement("span");
@@ -35,22 +35,25 @@ function addProjectToSidebar(project) {
 
   button.classList.add("nav-item");
   button.classList.add("sidebar-text");
-  button.id = `${project.id}-button`;
+  button.id = `project-${id}-button`;
   hashSpan.classList.add("hash-span");
-  hashSpan.style.color = project.color;
+  hashSpan.style.color = color;
   span.classList.add("text-span");
-  span.textContent = project.name;
+  span.textContent = name;
 
   hashSpan.appendChild(hashCopy);
   button.appendChild(hashSpan);
   button.appendChild(span);
   container.appendChild(button);
 
-  button.addEventListener("click", () => loadProjectPage(project));
+  button.addEventListener("click", () => {
+    const project = getProjectById(id);
+    loadProjectPage(project);
+  });
 }
 
 function editProjectOnSideBar(project) {
-  const button = document.querySelector(`#${project.id}-button`);
+  const button = document.querySelector(`#project-${project.id}-button`);
   const hashSpan = button.querySelector(".hash-span");
   const span = button.querySelector(".text-span");
 
@@ -59,7 +62,7 @@ function editProjectOnSideBar(project) {
 }
 
 function removeProjectFromSideBar(project) {
-  const button = document.querySelector(`#${project.id}-button`);
+  const button = document.querySelector(`#project-${project.id}-button`);
   container.removeChild(button);
 }
 
@@ -67,7 +70,7 @@ function loadProjectPage(project) {
   clearContent();
   clearCurrentNav();
 
-  const projectButton = document.querySelector(`#${project.id}-button`);
+  const projectButton = document.querySelector(`#project-${project.id}-button`);
   const content = document.querySelector("#content");
   projectButton.classList.toggle("current-nav");
 
@@ -108,16 +111,17 @@ function loadProjectPage(project) {
     displayTodoItem(todoContainer, project, todoListItem);
   }
 
-  form.addEventListener("submit", () =>
-    handleAddTodoItem(form, project, todoContainer)
-  );
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    dialog.open = false;
+    handleAddTodoItem(event.target, project, todoContainer);
+  });
 
   completionForm.addEventListener("submit", (event) => {
     const todoItemId = document.querySelector("#todo-item-id");
-    const id = Number(todoItemId.value);
-    const todoItem = project.getTodoItemById(id);
+    const id = todoItemId.value;
     const todoContainer = document.querySelector(`#todo-container-${id}`);
-    handleSetCompletionDate(event, todoItem, todoContainer);
+    handleSetCompletionDate(event, id, project.id, todoContainer);
   });
 
   content.appendChild(title);
@@ -145,12 +149,12 @@ function handleAddTodoItem(form, project, todoContainer) {
 
   for (const checklistItem of checklist) {
     if (checklistItem.value !== "") {
-      checklistValues.push(checklistItem.value);
+      checklistValues.push({ text: checklistItem.value, checked: false });
     }
   }
 
   const todoValues = {
-    id: Number(todoId.value),
+    id: todoId.value,
     title: title.value,
     description: description.value,
     dueDate: dueDate.value,

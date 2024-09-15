@@ -1,7 +1,8 @@
 class ChecklistItem {
-  constructor(text) {
+  constructor(text, checked, id) {
     this.text = text;
-    this.checked = false;
+    this.checked = checked;
+    this.id = Number(id);
   }
 
   toggleChecked() {

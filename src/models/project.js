@@ -1,9 +1,26 @@
+import { save } from "../controllers/projectController";
+import TodoItem from "./todoItem";
+
 class Project {
-  constructor(name, id, color) {
+  constructor(name, id, color, todoItems = null) {
     this.name = name;
-    this.id = `project-${id}`;
+    this.id = Number(id);
     this.color = color;
-    this.todoItems = [];
+    this.todoItems = todoItems
+      ? todoItems.map(
+          (todoItem) =>
+            new TodoItem(
+              todoItem.title,
+              todoItem.description,
+              todoItem.dueDate,
+              todoItem.priority,
+              todoItem.notes,
+              todoItem.checklist,
+              todoItem.id,
+              todoItem.completionDate
+            )
+        )
+      : [];
   }
 
   getTodoItems() {
@@ -12,6 +29,7 @@ class Project {
 
   addTodoItem(todoItem) {
     this.todoItems.push(todoItem);
+    save();
   }
 
   nextId() {
@@ -30,7 +48,7 @@ class Project {
   }
 
   getTodoItemById(todoId) {
-    const todoItem = this.todoItems.find((item) => todoId === item.id);
+    const todoItem = this.todoItems.find((item) => Number(todoId) === item.id);
     return todoItem;
   }
 
@@ -38,6 +56,7 @@ class Project {
     const index = this.todoItems.indexOf(todoItem);
     if (index > -1) {
       this.todoItems.splice(index, 1);
+      save();
     }
   }
 }

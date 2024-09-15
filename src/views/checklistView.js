@@ -1,4 +1,6 @@
-function displayChecklist(checklist, container) {
+import { toggleChecklistItemChecked } from "../controllers/checklistItemController";
+
+function displayChecklist(projectId, todoItemId, checklist, container) {
   if (checklist.length === 0) {
     const item = document.createElement("li");
     item.className = "checklist-item";
@@ -19,7 +21,7 @@ function displayChecklist(checklist, container) {
     text.textContent = checklistItem.text;
 
     checkbox.addEventListener("change", () => {
-      checklistItem.toggleChecked();
+      toggleChecklistItemChecked(projectId, todoItemId, checklistItem.id);
     });
 
     item.classList.add("checklist-item");
